@@ -1,0 +1,23 @@
+---
+layout: default
+title: Home
+description: Tensorics is a library for conveniently using Tensor data structure in Java.
+documentationExpanded: false
+postsExpanded: false
+---
+== Tensor!
+Tensorics allows you to use Tensor data structure in any Java program.
+
+It is especially usefull in situations like:
+
+* multi-dimensiona arrays.
+* multi-key maps.
+* mathematical operations over complex data.
+* support for physical units.
+
+== About
+This project started at CERN for internal usage. Due to its usefulness, it has been decided to publish it as Open Source project.
+
+== References
+https://github.com/tensorics[Github Project]
+link:javadoc/[Javadoc]
