@@ -5,7 +5,9 @@ env:
 rvm:
   - 2.2
 sudo: false
-script: bundle exec rake deploy
+script:
+  - bundle exec jekyll build
+  - bundle exec rake deploy
 
 branches:
   only:
