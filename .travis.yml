@@ -1,8 +1,0 @@
-language: ruby
-env:
-  global:
-    secure: GH_TOKEN
-rvm:
-  - 2.2
-sudo: false
-script: bundle exec rake deploy

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Tensorics Quickstart Guide</title>
+  <meta name="description" content="Tensorics Java Library Website
+">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://tensorics.github.io//doc/tensorics-quickstart.html">
+  <link rel="alternate" type="application/rss+xml" title="Tensorics" href="http://tensorics.github.io//feed.xml" />
+  <!-- backward compatibility -->
+  <script src="../js/vendor/modernizr.js"></script>
+  <!-- bootstrap core -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <!-- icons -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" crossorigin="anonymous">
+  <!-- fonts -->
+  <link href='//fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Open+Sans:300,700' rel='stylesheet' type='text/css'>
+  <!-- local css -->
+  <link rel="stylesheet" href="../css/coderay.css"/>
+  <link rel="stylesheet" href="../css/asciidoctor.css"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+</head>
+
+<body style="height: 100%">
+
+  <div class="site-header">
+  <h1>
+    <span><a class="site-title" href="/">Tensorics</a></span>
+  </h1>
+</div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 col-s-push-12 col-s-12">
+        <ul class="nav nav-pills nav-stacked">
+
+	
+		
+			<li role="presentation"><a class="page-link" href="/">Home</a></li>
+		
+	
+
+	
+
+	
+		
+			<li role="presentation"><a class="page-link" href="/doc/tensorics-manual.html">Tensorics Manual</a></li>
+		
+	
+
+	
+		
+			<li role="presentation"><a class="page-link" href="/doc/tensorics-quickstart.html">Tensorics Quickstart Guide</a></li>
+		
+	
+
+</ul>
+      </div>
+      <div class="col-md-9 col-s-12">
+        <div class="sect1">
+<h2 id="tensors"><a class="anchor" href="#tensors"></a>Tensors</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The central object of tensorics is a Tensor. The simplest way to imagine a tensor might be to see it as<br>
+a kind of map, where the map-key is actually a 'set of keys'. This 'set of keys' can be seen as a position<br>
+in the N-dimensional space - and this is what we will call it: Position ;-). Each position has exactly N elements (coordinates), corresponding to the dimensionality (N) of<br>
+the respective tensor. The dimensions of a tensor are uniquely defined by the classes of the coordinates.</p>
+</div>
+<div class="paragraph">
+<p><strong><em>This might have sound complicated - however, an example should make it obvious. Give it a chance and keep on reading ;-)</em></strong></p>
+</div>
+<div class="sect2">
+<h3 id="the_weather_example"><a class="anchor" href="#the_weather_example"></a>The weather example</h3>
+<div class="paragraph">
+<p>Lets take a (very simplistic ;-) example: Assume that we are are analyzing weather data.<br>
+We have recorded temperature values for several cities and several days, for example:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. Example Temperatures (random data!)</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">City</th>
+<th class="tableblock halign-left valign-top">Day</th>
+<th class="tableblock halign-left valign-top">Temperature [&#176;C]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">New York</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 1, 2014</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">18.5</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">New York</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">June 1, 2014</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">25.0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Geneva</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 1, 2014</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19.8</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Geneva</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">June 1, 2014</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24.7</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>These measurements can be represented as a tensor with two dimensions (city and day) and double values.<br>
+Such a tensor can be created as follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">Building a Tensor</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Unresolved directive in &lt;stdin&gt; - include::src/examples/org/tensorics/core/examples/meteo/simple/SimpleMeteoExample.java[tags=createTensor]</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Create the builder. The dimensions have to be given here. Dimensions are the classes of the coordinates.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Put values to the builder. For each class, given as dimension, exactly one instance has to be given.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Create the tensor.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Hereby we assumed that the cities and days are defined as constants beforehand (or enum values). Ok, we are aware<br>
+that it is very simplistic assumption and not practical for a real application ;-) The point is, it does not matter:<br>
+Any instance of a java class can serve as a coordinate. However, There are some much more important points to be learned<br>
+from this example:</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Tensors are always immutable! Therefore always a builder has to be used to create a tensor (or some convenience factory methods).
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+There is one global entry point: The Tensorics class. It provides access to static methods of the most important<br>
+functionality of tensorics. It is convenient to use these methods by putting as a static import to your java files.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+The 'put' - like methods in the builder are kind-of-reversed compared to put methods of a map: The parameters for<br>
+coordinates (which basically build the key/position) follow the parameter for the value. This might be<br>
+counter-intuitive at a first glance. However, there is a strong reason for this: The number of coordinates is variable for tensors,<br>
+while there is only one value. Therefore, to take advantage of the java varargs feature, it is necessary to place the<br>
+coordinate-arguments after the value argument.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="using_tensors"><a class="anchor" href="#using_tensors"></a>Using Tensors</h3>
+<div class="paragraph">
+<p>The simplest way to think of a tensor (in the sense of tensorics) is to imagine a map from positions to values.<br>
+Therefore, values can be retrieved from the tensor in a similar way than from a map:</p>
+</div>
+<div class="listingblock">
+<div class="title">Getting Values</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Unresolved directive in &lt;stdin&gt; - include::src/examples/org/tensorics/core/examples/meteo/simple/SimpleMeteoExample.java[tags=getValue]</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+All methods in tensorics are designed to fail fast. As a consequence, e.g. the get method will<br>
+throw a NoSuchElementException, if the requested element is not contained in the tensor. Further, an<br>
+IllegalArgumentException might be thrown, if the number of the given coordinates do not match the dimensions<br>
+of the tensor.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Again similar to maps, there exists also an easy way to loop through the position/value pairs:</p>
+</div>
+<div class="listingblock">
+<div class="title">Looping through tensor entries</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Unresolved directive in &lt;stdin&gt; - include::src/examples/org/tensorics/core/examples/meteo/simple/SimpleMeteoExample.java[tags=loopThroughEntries]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This would print to the console something like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>[NEW_YORK, APRIL_1_2014]	-&gt;	18.5
+[GENEVA, APRIL_1_2014]  	-&gt;	19.8
+[NEW_YORK, JUNE_1_2014] 	-&gt;	25.0
+[GENEVA, JUNE_1_2014]   	-&gt;	24.7</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="tensor_shape"><a class="anchor" href="#tensor_shape"></a>Tensor Shape</h3>
+<div class="paragraph">
+<p>Very often it is useful to see what for which positions in the N-dimensional space values are available within a tensor.<br>
+This is comparable to the key-set of a map. However, there are several important differences:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Tensors can have different dimensions (number and types of coordinates), while a map has exactly one type of the key.<br>
+This information is very important to compare different tensors, for example to determine if the two tensors are compatible<br>
+for certain operations or not.</p>
+</li>
+<li>
+<p>Very often there will be similar tensors, which contain the same positions but different values: For example, if a tensor<br>
+(in mathematics) is multiplied by a scalar value, the resulting tensor will be of the same 'Shape' as the original tensor.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>A dedicated object, the <a href="http://tensorics.github.io/javadoc/org/tensorics/core/tensor/Shape.html">Shape</a> holds all this information and can be retrieved from a tensor by the<br>
+<a href="http://tensorics.github.io/javadoc/org/tensorics/core/tensor/Tensor.html#shape--">shape()</a> method. Like most objects in the tensorics library, a shape is also an immutable object.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="structural_operations"><a class="anchor" href="#structural_operations"></a>Structural Operations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In the above example, the get() method of the tensor was used to get values at a certain position. However, you might notice that the API of<br>
+the tensor interface appears to be quite sparse: It contains only the really necessary methods to access the data of the tensor.<br>
+The philosophy of the tensorics library in this context is, that all more complicated manipulations are done by the use of static utility methods.<br>
+This allows to easily extend the library by new functionality without breaking the core interfaces. Many of this utility methods are<br>
+implemented such, that they are starting points for fluent clauses, which allows a (hopefully) very expressive and intuitive usage.<br>
+The second reason for this decision is, that in this way it is possible to provide an API with the same syntax for other objects,<br>
+like numbers or tensor expressions (To be explained later ;-).</p>
+</div>
+<div class="paragraph">
+<p>So, instead of the above example, which uses the get() method directly, it is equivalent to write:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Unresolved directive in &lt;stdin&gt; - include::src/examples/org/tensorics/core/examples/meteo/simple/SimpleMeteoExample.java[tags=getByStaticMethods]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Together, with static imports for the from() method and the enum constants, this reads even nicer as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Unresolved directive in &lt;stdin&gt; - include::src/examples/org/tensorics/core/examples/meteo/simple/SimpleMeteoExample.java[tags=getByStaticMethodsWithStaticImports]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>So far, this is of course not very impressive. However, the from(..) clause provides various other methods<br>
+which provide access to the data of the tensor. The most important ones of them are:<br>
+.Structural Operations</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">clause</th>
+<th class="tableblock halign-left valign-top">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://tensorics.github.io/javadoc/org/tensorics/core/tensor/lang/OngoingTensorManipulation.html#extract(java.lang.Object&#8230;&#8203;)">from(tensor).get(Object&#8230;&#8203; coordinates);</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Retrieves the value at the given coordinates.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://tensorics.github.io/javadoc/org/tensorics/core/tensor/lang/OngoingTensorManipulation.html#extract(java.lang.Object&#8230;&#8203;)">from(tensor).extract(Object&#8230;&#8203; coordinates);</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Extracts the sub tensor at the given coordinates.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Last built:		2016-09-16 13:42:01 UTC</p>
+</div>
+</div>
+</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer" align="center">
+	Tensorics is an Open Source project developed at CERN
+</div>
+
+
+</body>
+</html>
