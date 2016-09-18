@@ -1,4 +1,9 @@
-= Tensorics Manual
+---
+layout: default
+title: Tensorics Todo
+root: ../
+---
+= Tensorics Todo
 Kajetan Fuchsberger <kajetan.fuchsberger@cern.ch>, Arkadiusz Gorzawski <arkadiusz.gorzawski@cern.ch>
 2014-07-12
 :icons: font
@@ -16,7 +21,7 @@ IMPORTANT: This is a list of things to be included, at near future.
 
 === Tensors
 
-* add remove(Position) in the builder ?
+* add remove(Position) in the builder
 
 
 === Tensorbackeds
