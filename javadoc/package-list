@@ -1,3 +1,6 @@
+org.tensorics.core.booleans
+org.tensorics.core.booleans.lang
+org.tensorics.core.booleans.operations
 org.tensorics.core.commons.lang
 org.tensorics.core.commons.operations
 org.tensorics.core.commons.options
