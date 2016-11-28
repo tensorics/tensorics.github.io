@@ -11,4 +11,4 @@ script:
 
 branches:
   only:
-  - website-source
+    - website-source
