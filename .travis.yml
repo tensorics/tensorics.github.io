@@ -10,5 +10,5 @@ script:
   - bundle exec rake deploy
 
 branches:
-  only:
-    - website-source
+  except:
+  - master
