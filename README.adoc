@@ -1,2 +1,2 @@
 = Tensorics Website
-http://tensorics.github.io/[Website]
+link:http://tensorics.github.io/[Website]
