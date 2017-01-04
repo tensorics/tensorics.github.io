@@ -2,48 +2,37 @@
 ---
 @charset "utf-8";
 
-// Our variables
-$base-font-family: 'PT Sans', Helvetica, Arial, sans-serif;
-$base-font-size:   16px;
-$small-font-size:  $base-font-size * 0.895;
-$large-font-size:  $base-font-size * 1.40;
+$base-font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 
-$base-line-height: 1.5;
+$text-color: #444;
+$background-color: #fff;
+$brand-color: #cc4d39;
+$footer-text-color: #959595;
 
-$spacing-unit:     30px;
+@import "header";
+@import "nav";
 
-$text-color:       #454545;
-$background-color: #FFF;
-$brand-color:      #cc4d39;
-
-$grey-color:       #828282;
-$grey-color-light: lighten($grey-color, 30%);
-$grey-color-dark:  darken($grey-color, 25%);
-
-// Width of the content area
-$content-width:    700px;
-$on-palm:          700px;
-$on-laptop:        700px;
-
-
-
-// Using media queries with like this:
-// @include media-query($on-palm) {
-//     .wrapper {
-//         padding-right: $spacing-unit / 2;
-//         padding-left: $spacing-unit / 2;
-//     }
-// }
-@mixin media-query($device) {
-    @media screen and (max-width: $device) {
-        @content;
-    }
+body {
+    background-color: $background-color;
+    color: $text-color;
+    font-family: $base-font-family;
+    font-weight: 300;
+    height: 100%;
 }
 
-// Import partials from `sass_dir` (defaults to `_sass`)
-@import
-        "base",
-        "layout",
-        "syntax-highlighting"
-;
+.container-fluid {
+    padding: 0;
+}
 
+footer {
+    padding-bottom: 3em;
+    margin: auto;
+    font-size: 12px;
+    font-family: Open Sans;
+    color: $footer-text-color;
+    text-align: center;
+}
+
+footer > a {
+    text-decoration: none;
+}

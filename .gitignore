@@ -5,3 +5,5 @@
 /tmp/
 *.bundle
 Gemfile.lock
+.idea/
+tensorics.github.io.iml

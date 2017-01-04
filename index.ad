@@ -1,7 +1,6 @@
 ---
 layout: default
 title: Home
-description: Tensorics is a library for conveniently using Tensor data structure in Java.
 documentationExpanded: false
 postsExpanded: false
 ---

@@ -1,0 +1,11 @@
+nav ul {
+    margin: 0;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
+    color: #fff;
+    background-color: #cc4d39;
+}
+.nav-pills > li > a, .nav-pills > li > a:focus, .nav-pills > li > a:hover {
+    text-decoration: none;
+}
