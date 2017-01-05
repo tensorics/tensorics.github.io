@@ -1,13 +1,16 @@
 <nav>
 <ul class="nav nav-pills nav-stacked">
-{% for sitePage in site.pages %}
-	{% if sitePage.title %}
-		{% if sitePage.url == page.url %}
-			<li role="presentation" class="active"><a class="page-link" href="{{ sitePage.url | prepend: site.baseurl }}">{{ sitePage.title }}</a></li>
-		{% else %}
-			<li role="presentation"><a class="page-link" href="{{ sitePage.url | prepend: site.baseurl }}">{{ sitePage.title }}</a></li>
-		{% endif %}
-	{% endif %}
-{% endfor %}
+	{% assign groupedPages = site.pages | group_by:"project" | sort: "name" %}
+	{% for group in groupedPages %}
+		{% unless group.name == "" %}
+			<li><p class="nav-group-title">{{ group.name }}</p></li>
+		{% endunless %}
+
+		{% for sitePage in group.items %}
+			{% if sitePage.title %}
+				<li role="presentation" {% if sitePage.url == page.url %}class="active"{% endif %}><a class="page-link" href="{{ sitePage.url | prepend: site.baseurl }}">{{ sitePage.title }}</a></li>
+			{% endif %}
+		{% endfor %}
+	{% endfor %}
 </ul>
 </nav>

@@ -7,3 +7,5 @@
 Gemfile.lock
 .idea/
 tensorics.github.io.iml
+tensorics-core/
+tensorics-expression/

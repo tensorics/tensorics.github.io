@@ -1,9 +1,17 @@
 title: "Tensorics"
 
 description: "Tensorics Java Library Website"
-baseurl: "" # the subpath of your site, e.g. /blog/
+baseurl: ""
 url: "http://tensorics.github.io/"
 
+tensorics-core-dir: "/tensorics-core"
+tensorics-core-javadoc: "/tensorics-core/javadoc"
+tensorics-expression-dir: "/tensorics-expression"
+tensorics-expression-javadoc: "/tensorics-expression/javadoc"
+
+exclude: ["Gemfile", "Rakefile", "*.iml", "*.sh", "README.adoc"]
+encoding: utf-8
+timezone: CET
 asciidoctor:
   attributes:
     - idseparator=_
