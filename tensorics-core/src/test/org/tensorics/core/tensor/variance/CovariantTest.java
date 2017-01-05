@@ -1,0 +1,70 @@
+// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of tensorics.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package org.tensorics.core.tensor.variance;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+
+import org.junit.Test;
+import org.tensorics.core.util.Instantiator;
+
+public class CovariantTest {
+
+    private static final String TEST_VALUE_A = "A";
+
+    @Test(expected = NullPointerException.class)
+    public void nullConstructorArgumentThrows() {
+        stringInstantiator().create(null);
+    }
+
+    @Test
+    public void getReturnsCorrectValue() {
+        assertThat(covariantTestValue().get(), equalTo(TEST_VALUE_A));
+    }
+
+    @Test
+    public void twoCreatedInstancesEqual() {
+        assertThat(covariantTestValue(), equalTo(covariantTestValue()));
+    }
+
+    private CovariantString covariantTestValue() {
+        return stringInstantiator().create(TEST_VALUE_A);
+    }
+
+    private Instantiator<String, CovariantString> stringInstantiator() {
+        return Covariants.instantiatorFor(CovariantString.class);
+    }
+
+    public static class CovariantString extends Covariant<String> {
+
+        private CovariantString(String argument) {
+            super(argument);
+        }
+
+        public static CovariantString of(String argument) {
+            return new CovariantString(argument);
+        }
+
+    }
+
+}

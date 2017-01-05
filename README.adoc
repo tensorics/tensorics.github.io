@@ -1,2 +1,0 @@
-= Tensorics Website
-link:http://tensorics.github.io/[Website]
