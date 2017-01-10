@@ -169,31 +169,31 @@ public final class TensorStructurals {
         return builder.build();
     }
 
-    public static final <S> Tensor<S> mergeContextIntoShape(Tensor<S> tensor) {
+    public static final <V> Tensor<V> mergeContextIntoShape(Tensor<V> tensor) {
         if (tensor.context().coordinates().isEmpty()) {
             throw new IllegalArgumentException("an empty context can't be merged into the positions");
         }
-        Builder<S> builder = ImmutableTensor
+        Builder<V> builder = ImmutableTensor
                 .builder(Sets.union(tensor.shape().dimensionSet(), tensor.context().dimensionSet()));
         builder.putAll(tensor.context(), tensor);
         return builder.build();
     }
 
-    public static final <S> Tensor<S> setContext(Tensor<S> tensor, Position context) {
-        Builder<S> builder = ImmutableTensor.builder(tensor.shape().dimensionSet());
+    public static final <V> Tensor<V> setContext(Tensor<V> tensor, Position context) {
+        Builder<V> builder = ImmutableTensor.builder(tensor.shape().dimensionSet());
         builder.context(context);
         builder.putAll(tensor);
         return builder.build();
     }
 
-    public static final <S> OngoingTensorFiltering<S> filter(Tensor<S> tensor) {
+    public static final <V> OngoingTensorFiltering<V> filter(Tensor<V> tensor) {
         return new OngoingTensorFiltering<>(tensor);
     }
 
-    public static final <S> Tensor<S> completeWith(Tensor<S> tensor, Tensor<S> second) {
+    public static final <V> Tensor<V> completeWith(Tensor<V> tensor, Tensor<V> second) {
         checkNotNull(second, "second tensor must not be null");
 
-        Builder<S> builder = ImmutableTensor.builder(tensor.shape().dimensionSet());
+        Builder<V> builder = ImmutableTensor.builder(tensor.shape().dimensionSet());
         builder.context(tensor.context());
 
         Shape shape = Shapes.union(tensor.shape(), second.shape());
@@ -205,6 +205,10 @@ public final class TensorStructurals {
             }
         }
         return builder.build();
+    }
+
+    public static final <V> OngoingResampling<V> resample(Tensor<V> tensor) {
+        return new OngoingResampling<>(tensor);
     }
 
 }
