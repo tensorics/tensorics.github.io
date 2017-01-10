@@ -38,7 +38,6 @@ import com.google.common.collect.ClassToInstanceMap;
 import com.google.common.collect.ImmutableClassToInstanceMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multiset;
-import com.google.common.collect.Sets;
 
 /**
  * Utility methods to handle coordinates
@@ -120,10 +119,14 @@ public final class Coordinates {
     public static <C> Class<? super C> mapToAnEntry(Class<C> classToCheck, Iterable<Class<?>> dimensions) {
         for (Class<?> dimension : dimensions) {
             if (classToCheck.equals(dimension)) {
-                return (Class<? super C>) dimension;
+                @SuppressWarnings("unchecked")
+                Class<? super C> toReturn = (Class<? super C>) dimension;
+                return toReturn;
             }
             if (dimension.isAssignableFrom(classToCheck)) {
-                return (Class<? super C>) dimension;
+                @SuppressWarnings("unchecked")
+                Class<? super C> toReturn = (Class<? super C>) dimension;
+                return toReturn;
             }
         }
         throw new IllegalArgumentException("Cannot use given coordinates class! '" + classToCheck.getCanonicalName()
