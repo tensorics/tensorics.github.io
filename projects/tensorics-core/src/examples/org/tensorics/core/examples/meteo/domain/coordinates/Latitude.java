@@ -1,6 +1,6 @@
 package org.tensorics.core.examples.meteo.domain.coordinates;
 
-public class Latitude implements MeteoCoordinate{
+public class Latitude implements MeteoCoordinate {
 	private double lattitude;
 
 	public Latitude(double lattitude) {
@@ -36,8 +36,7 @@ public class Latitude implements MeteoCoordinate{
 		if (getClass() != obj.getClass())
 			return false;
 		Latitude other = (Latitude) obj;
-		if (Double.doubleToLongBits(lattitude) != Double
-				.doubleToLongBits(other.lattitude))
+		if (Double.doubleToLongBits(lattitude) != Double.doubleToLongBits(other.lattitude))
 			return false;
 		return true;
 	}

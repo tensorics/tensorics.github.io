@@ -51,8 +51,7 @@ public class PositionTest {
 	@Test
 	public void assertConsistentWithWrongSetThrows() {
 		thrown.expect(IllegalArgumentException.class);
-		//thrown.expectMessage("coordinates are not consistent");
-        thrown.expectMessage("assignable");
+		thrown.expectMessage("assignable");
 		assertConsistentDimensions(POS_A, ImmutableSet.of(Integer.class));
 	}
 
@@ -61,7 +60,7 @@ public class PositionTest {
 		expectUniqueDimensionsException();
 		Position.of("A", "B");
 	}
-	
+
 	@Test
 	public void positionOfSetSameTypeThrow() {
 		expectUniqueDimensionsException();

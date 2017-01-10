@@ -28,31 +28,30 @@ import org.tensorics.core.quantity.options.QuantityEnvironment;
 
 import com.google.common.base.Optional;
 
-
 /**
  * @author kfuchsbe
  * @param <V>
  */
 public class AbstractQuantityOperation<V> {
 
-    private final QuantityEnvironment<V> mathsEnvironment;
+	private final QuantityEnvironment<V> mathsEnvironment;
 
-    protected AbstractQuantityOperation(QuantityEnvironment<V> environment) {
-        super();
-        this.mathsEnvironment = environment;
-    }
+	protected AbstractQuantityOperation(QuantityEnvironment<V> environment) {
+		super();
+		this.mathsEnvironment = environment;
+	}
 
-    protected QuantityEnvironment<V> environment() {
-        return mathsEnvironment;
-    }
+	protected QuantityEnvironment<V> environment() {
+		return mathsEnvironment;
+	}
 
-    protected boolean validityFor(QuantifiedValue<V> leftOperand, QuantifiedValue<V> rightOperand) {
-        return environment().options().get(BinaryOperationValidityStrategy.class)
-                .validityForBinaryOperation(leftOperand, rightOperand);
-    }
+	protected boolean validityFor(QuantifiedValue<V> leftOperand, QuantifiedValue<V> rightOperand) {
+		return environment().options().get(BinaryOperationValidityStrategy.class)
+				.validityForBinaryOperation(leftOperand, rightOperand);
+	}
 
-    protected Optional<V> productError(QuantifiedValue<V> leftOperand, QuantifiedValue<V> rightOperand) {
-        return environment().errorPropagation().errorForProductAndDivision(leftOperand, rightOperand);
-    }
+	protected Optional<V> productError(QuantifiedValue<V> leftOperand, QuantifiedValue<V> rightOperand) {
+		return environment().errorPropagation().errorForProductAndDivision(leftOperand, rightOperand);
+	}
 
 }

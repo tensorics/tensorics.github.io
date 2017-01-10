@@ -26,21 +26,21 @@ import com.google.common.collect.ImmutableSet;
  */
 public final class FakeMeteoDataImporter {
 
-    private FakeMeteoDataImporter() {
-        /* only static classes */
-    }
+	private FakeMeteoDataImporter() {
+		/* only static classes */
+	}
 
-    public static Tensor<QuantifiedValue<Double>> importFromNow() {
-        Set<Class<?>> dimensions = ImmutableSet.of(Longitude.class, Latitude.class);
-        Builder<QuantifiedValue<Double>> tensorBuilder = ImmutableTensor.<QuantifiedValue<Double>> builder(dimensions);
-        tensorBuilder.context(Position.of(ImmutableSet.<MeteoCoordinate> of(new Time())));
-        Random rand = new Random();
-        for (int x = 0; x < 10; x++) {
-            for (int y = 0; y < 10; y++) {
+	public static Tensor<QuantifiedValue<Double>> importFromNow() {
+		Set<Class<?>> dimensions = ImmutableSet.of(Longitude.class, Latitude.class);
+		Builder<QuantifiedValue<Double>> tensorBuilder = ImmutableTensor.<QuantifiedValue<Double>>builder(dimensions);
+		tensorBuilder.context(Position.of(ImmutableSet.<MeteoCoordinate>of(new Time())));
+		Random rand = new Random();
+		for (int x = 0; x < 10; x++) {
+			for (int y = 0; y < 10; y++) {
 
                 QuantifiedValue<Double> entryValue = ImmutableQuantifiedValue.<Double> of(rand.nextDouble(),
                         JScienceUnit.of(SI.CELSIUS));
-                tensorBuilder.at(Position.of(new Longitude(x), new Latitude(y))).put(entryValue);
+                tensorBuilder.put(Position.of(new Longitude(x), new Latitude(y)), entryValue);
             }
         }
         return tensorBuilder.build();
@@ -55,16 +55,17 @@ public final class FakeMeteoDataImporter {
                 for (int t = 0; t < 10; t++) {
                     QuantifiedValue<Double> entryValue = ImmutableQuantifiedValue.<Double> of(rand.nextDouble(),
                             JScienceUnit.of(SI.CELSIUS));
-                    tensorBuilder.at(Position.of(new Time(t), new Longitude(x), new Latitude(y))).put(entryValue);
+                    tensorBuilder.put(Position.of(new Time(t), new Longitude(x), new Latitude(y)), entryValue);
                 }
             }
         }
         return tensorBuilder.build();
     }
 
-    public static Tensor<QuantifiedValue<Double>> importFromPastCorrupted() {
-        Set<Class<?>> dimensions = ImmutableSet.of(Time.class, Longitude.class, Latitude.class);
-        Builder<QuantifiedValue<Double>> tensorBuilder = ImmutableTensor.<QuantifiedValue<Double>> builder(dimensions);
+	public static Tensor<QuantifiedValue<Double>> importFromPastCorrupted() {
+		Set<Class<?>> dimensions = ImmutableSet.of(Time.class, Longitude.class, Latitude.class);
+		Builder<QuantifiedValue<Double>> tensorBuilder = ImmutableTensor.<QuantifiedValue<Double>>builder(dimensions);
+
 
         Random rand = new Random();
         for (int x = 0; x < 10; x++) {
@@ -73,13 +74,13 @@ public final class FakeMeteoDataImporter {
                     if (y != 5) {
                         QuantifiedValue<Double> entryValue = ImmutableQuantifiedValue.<Double> of(rand.nextDouble(),
                                 JScienceUnit.of(SI.CELSIUS));
-                        tensorBuilder.at(Position.of(new Time(t), new Longitude(x), new Latitude(y))).put(entryValue);
+                        tensorBuilder.put(Position.of(new Time(t), new Longitude(x), new Latitude(y)), entryValue);
                     }
                 }
             }
         }
 
-        return tensorBuilder.build();
-    }
+		return tensorBuilder.build();
+	}
 
 }

@@ -142,12 +142,11 @@ Such a tensor can be created as follows:</p>
 <div class="listingblock">
 <div class="title">Building a Tensor</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">TensorBuilder&lt;<span class="predefined-type">Double</span>&gt; builder = Tensorics.builder(City.class, Day.class); <i class="conum" data-value="1"></i><b>(1)</b>
+<pre class="CodeRay highlight"><code data-lang="java">      TensorBuilder&lt;<span class="predefined-type">Double</span>&gt; builder = Tensorics.builder(City.class, Day.class); <i class="conum" data-value="1"></i><b>(1)</b>
 
-builder.putAt(<span class="float">18.5</span>, City.NEW_YORK, Day.APRIL_1_2014); <i class="conum" data-value="2"></i><b>(2)</b>
-builder.putAt(<span class="float">25.0</span>, City.NEW_YORK, Day.JUNE_1_2014);
-builder.putAt(<span class="float">19.8</span>, City.GENEVA, Day.APRIL_1_2014);
-builder.putAt(<span class="float">24.7</span>, City.GENEVA, Day.JUNE_1_2014);
+      builder.put(<span class="predefined-type">Position</span>.at(City.NEW_YORK, Day.APRIL_1_2014 ), <span class="float">18.5</span>); <i class="conum" data-value="2"></i><b>(2)</b>
+      builder.put(<span class="predefined-type">Position</span>.at(City.GENEVA, Day.APRIL_1_2014 ), <span class="float">19.8</span>);
+      builder.put(<span class="predefined-type">Position</span>.at(City.GENEVA, Day.JUNE_1_2014), <span class="float">24.7</span>);
 
 Tensor&lt;<span class="predefined-type">Double</span>&gt; temps = builder.build(); <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
 </div>
@@ -249,10 +248,10 @@ of the tensor.
 <div class="listingblock">
 <div class="title">Looping through tensor entries</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">for</span> (Entry&lt;<span class="predefined-type">Position</span>, <span class="predefined-type">Double</span>&gt; entry : temperatures.asMap().entrySet()) {
-    <span class="predefined-type">Position</span> position = entry.getKey();
-    <span class="type">double</span> value = entry.getValue();
-    <span class="predefined-type">System</span>.out.println(position + <span class="string"><span class="delimiter">&quot;</span><span class="char">\t</span><span class="content">-&gt;</span><span class="char">\t</span><span class="delimiter">&quot;</span></span> + value);
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">for</span> (Entry&lt;<span class="predefined-type">Position</span>, <span class="predefined-type">Double</span>&gt; entry : Tensorics.mapFrom(temperatures).entrySet()) {
+        <span class="predefined-type">Position</span> position = entry.getKey();
+        <span class="type">double</span> value = entry.getValue();
+        <span class="predefined-type">System</span>.out.println(position + <span class="string"><span class="delimiter">&quot;</span><span class="char">\t</span><span class="content">-&gt;</span><span class="char">\t</span><span class="delimiter">&quot;</span></span> + value);
 }</code></pre>
 </div>
 </div>
@@ -350,7 +349,7 @@ which provide access to the data of the tensor. The most important ones of them 
 </tbody>
 </table>
 <div class="paragraph">
-<p>Last built:		2017-07-04 17:57:56 CEST</p>
+<p>Last built:		2017-07-05 17:58:57 CEST</p>
 </div>
 </div>
 </div>

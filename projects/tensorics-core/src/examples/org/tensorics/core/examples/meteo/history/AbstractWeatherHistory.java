@@ -15,9 +15,8 @@ import org.tensorics.core.tensor.options.IntersectionShapingStrategy;
 public abstract class AbstractWeatherHistory extends TensoricSupport<Double> {
 
 	public AbstractWeatherHistory() {
-		super(EnvironmentImpl.of(Structures.doubles(),
-				ManipulationOptions.defaultOptions(Structures.doubles())).with(
-				new IntersectionShapingStrategy()));
+		super(EnvironmentImpl.of(Structures.doubles(), ManipulationOptions.defaultOptions(Structures.doubles()))
+				.with(new IntersectionShapingStrategy()));
 	}
 
 	public abstract List<City> getCities();

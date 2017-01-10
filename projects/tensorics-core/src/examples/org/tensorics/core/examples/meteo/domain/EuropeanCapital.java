@@ -13,8 +13,8 @@ public enum EuropeanCapital implements City {
 
 	BERN(new Longitude(73.00), new Latitude(42.2)),
 
-	LONDON(new Longitude(62.00), new Latitude(13.77)), 
-	
+	LONDON(new Longitude(62.00), new Latitude(13.77)),
+
 	ROMA(new Longitude(52.00), new Latitude(13.77));
 
 	private Longitude longitude;
