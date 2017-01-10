@@ -25,7 +25,6 @@ package org.tensorics.core.tensor;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -79,7 +78,7 @@ public class ImmutableTensor<T> implements Tensor<T>, Serializable {
      * @return a builder for {@link ImmutableTensor}
      * @param <T> type of values in Tensor.
      */
-    public static final <T> Builder<T> builder(Set<? extends Class<?>> dimensions) {
+    public static final <T> Builder<T> builder(Set<Class<?>> dimensions) {
         return new Builder<T>(dimensions);
     }
 
@@ -103,7 +102,7 @@ public class ImmutableTensor<T> implements Tensor<T>, Serializable {
      * @param map the map from which to construct a tensor
      * @return a new immutable tensor
      */
-    public static final <T> Tensor<T> fromMap(Set<? extends Class<?>> dimensions, Map<Position, T> map) {
+    public static final <T> Tensor<T> fromMap(Set<Class<?>> dimensions, Map<Position, T> map) {
         Builder<T> builder = builder(dimensions);
         builder.putAllMap(map);
         return builder.build();
@@ -192,16 +191,6 @@ public class ImmutableTensor<T> implements Tensor<T>, Serializable {
     }
 
     @Override
-    @Deprecated
-    public Set<Tensor.Entry<T>> entrySet() {
-        Set<Tensor.Entry<T>> toReturn = new HashSet<>();
-        for (java.util.Map.Entry<Position, T> one : entries.entrySet()) {
-            toReturn.add(new ImmutableEntry<>(one.getKey(), one.getValue()));
-        }
-        return toReturn;
-    }
-
-    @Override
     public Map<Position, T> asMap() {
         /* the internal map is already immutable and does not need to be copied */
         return entries;
@@ -250,7 +239,7 @@ public class ImmutableTensor<T> implements Tensor<T>, Serializable {
 
         private final Map<Position, S> entries = new HashMap<>();
 
-        Builder(Set<? extends Class<?>> dimensions) {
+        Builder(Set<Class<?>> dimensions) {
             super(dimensions);
         }
 
@@ -280,7 +269,9 @@ public class ImmutableTensor<T> implements Tensor<T>, Serializable {
 
         @Override
         public void putAllMap(Map<Position, S> newEntries) {
-            this.entries.putAll(newEntries);
+            for (java.util.Map.Entry<Position, S> entry : newEntries.entrySet()) {
+                this.put(entry);
+            }
         }
 
         @Override

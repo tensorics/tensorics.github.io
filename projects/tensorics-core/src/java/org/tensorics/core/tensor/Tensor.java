@@ -49,12 +49,6 @@ public interface Tensor<E> {
     E get(Object... coordinates);
 
     /**
-     * @return entry set of the tensor.
-     */
-    @Deprecated
-    Iterable<Entry<E>> entrySet();
-
-    /**
      * @return all the entries as a map of Position to value. There is no guarantee about the thread safety or
      *         mutability of the returned {@link Map}.
      */
@@ -69,26 +63,5 @@ public interface Tensor<E> {
      * @return a Context of the tensor.
      */
     Context context();
-
-    /**
-     * An interface for tensor entries.
-     * 
-     * @author agorzaws
-     * @param <E> type of the values in the tensor.
-     */
-    @Deprecated
-    interface Entry<E> {
-
-        /**
-         * @return a value of the entry, type <E>
-         */
-        E getValue();
-
-        /**
-         * @return position of the entry.
-         */
-        Position getPosition();
-
-    }
 
 }

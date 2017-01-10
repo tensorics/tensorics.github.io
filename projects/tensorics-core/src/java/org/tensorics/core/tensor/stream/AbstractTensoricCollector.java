@@ -33,14 +33,14 @@ import java.util.function.Supplier;
 import java.util.stream.Collector;
 
 import org.tensorics.core.tensor.Position;
-import org.tensorics.core.tensorbacked.Tensorbacked;
 import org.tensorics.core.tensor.Tensor;
+import org.tensorics.core.tensorbacked.Tensorbacked;
 
 /**
  * Abstract base class for a stream {@link Collector} which is backed by a map of {@link Position} to an arbitrary
  * value, from which a {@link Tensor} or {@link Tensorbacked} can be built in the finalization step.
  * 
- * @author mihostet 
+ * @author mihostet
  * @param <V> stream elements
  * @param <T> elements of the tensor to be produced
  * @param <O> output (e.g. Tensor<T> or Tensorbacked<T>)
@@ -49,8 +49,9 @@ public abstract class AbstractTensoricCollector<V, T, O> implements Collector<V,
 
     private final Function<V, Position> positionMapper;
     private final Function<V, T> valueMapper;
-
-    public AbstractTensoricCollector(Function<V, Position> positionMapper, Function<V, T> valueMapper) {
+    
+    public AbstractTensoricCollector(Function<V, Position> positionMapper,
+            Function<V, T> valueMapper) {
         this.positionMapper = positionMapper;
         this.valueMapper = valueMapper;
     }

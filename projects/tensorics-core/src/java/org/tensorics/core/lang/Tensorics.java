@@ -111,17 +111,9 @@ public final class Tensorics {
     }
 
     /**
-     * @see Tensorbackeds#mergeTo(Set, Class)
-     */
-    public static <TB extends Tensorbacked<E>, TBOUT extends Tensorbacked<E>, E> TBOUT mergeTo(Set<TB> toBeMerged,
-            Class<TBOUT> classToReturn) {
-        return Tensorbackeds.mergeTo(toBeMerged, classToReturn);
-    }
-
-    /**
      * @see ImmutableTensor#builder(Set)
      */
-    public static <T> TensorBuilder<T> builder(Set<? extends Class<?>> dimensions) {
+    public static <T> TensorBuilder<T> builder(Set<Class<?>> dimensions) {
         return ImmutableTensor.builder(dimensions);
     }
 
@@ -135,15 +127,8 @@ public final class Tensorics {
     /**
      * @see ImmutableTensor#fromMap(Set, Map)
      */
-    public static <T> Tensor<T> fromMap(Set<? extends Class<?>> dimensions, Map<Position, T> map) {
+    public static <T> Tensor<T> fromMap(Set<Class<?>> dimensions, Map<Position, T> map) {
         return ImmutableTensor.fromMap(dimensions, map);
-    }
-
-    /**
-     * @see ImmutableTensor#fromMap(Set, Map)
-     */
-    public static <T> Tensor<T> fromMap(Map<Position, T> map) {
-        return ImmutableTensor.fromMap(map);
     }
 
     /**
