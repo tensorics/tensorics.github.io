@@ -22,6 +22,7 @@
 
 package org.tensorics.core.iterable.operations;
 
+import org.tensorics.core.commons.operations.Conversion;
 import org.tensorics.core.math.ExtendedField;
 import org.tensorics.core.scalar.lang.ScalarSupport;
 
@@ -31,18 +32,18 @@ import org.tensorics.core.scalar.lang.ScalarSupport;
  * @author kfuchsbe
  * @param <V> the type of the elements of the field.
  */
-public class IterableSize<V> extends ScalarSupport<V> implements IterableOperation<V> {
+public class IterableSize<V> extends ScalarSupport<V> implements Conversion<Iterable<?>, V> {
 
     public IterableSize(ExtendedField<V> field) {
         super(field);
     }
 
     @Override
-    public V apply(Iterable<V> iterable) {
+    public V apply(Iterable<?> iterable) {
         V one = one();
         V count = zero();
         for (@SuppressWarnings("unused")
-        V value : iterable) {
+        Object value : iterable) {
             count = calculate(count).plus(one);
         }
         return count;

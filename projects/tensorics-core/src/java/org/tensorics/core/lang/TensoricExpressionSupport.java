@@ -98,7 +98,7 @@ public class TensoricExpressionSupport<V> {
         return tensoricFieldUsage.inverseOf(element);
     }
 
-    public final Expression<V> averageOf(Expression<Iterable<V>> iterableExpression) {
+    public final Expression<V> averageOf(Expression<? extends Iterable<V>> iterableExpression) {
         return tensoricFieldUsage.averageOf(iterableExpression);
     }
 
@@ -118,7 +118,7 @@ public class TensoricExpressionSupport<V> {
         return tensoricFieldUsage.one();
     }
 
-    public final Expression<V> sizeOf(Expression<Iterable<V>> iterableExpression) {
+    public final Expression<V> sizeOf(Expression<? extends Iterable<?>> iterableExpression) {
         return tensoricFieldUsage.sizeOf(iterableExpression);
     }
 
@@ -138,7 +138,7 @@ public class TensoricExpressionSupport<V> {
         return tensoricFieldUsage.squareOf(value);
     }
 
-    public final Expression<V> sumOf(Expression<Iterable<V>> iterableExpression) {
+    public final Expression<V> sumOf(Expression<? extends Iterable<V>> iterableExpression) {
         return tensoricFieldUsage.sumOf(iterableExpression);
     }
 
@@ -158,7 +158,7 @@ public class TensoricExpressionSupport<V> {
         return tensoricFieldUsage.calculate(left);
     }
 
-    public Expression<V> rmsOf(Expression<Iterable<V>> iterableExpression) {
+    public Expression<V> rmsOf(Expression<? extends Iterable<V>> iterableExpression) {
         return tensoricFieldUsage.rmsOf(iterableExpression);
     }
 
@@ -174,7 +174,7 @@ public class TensoricExpressionSupport<V> {
         return tensoricFieldUsage.zeros(shape);
     }
 
-    public Expression<V> sumOfSquaresOf(Expression<Iterable<V>> iterableExpression) {
+    public Expression<V> sumOfSquaresOf(Expression<? extends Iterable<V>> iterableExpression) {
         return tensoricFieldUsage.sumOfSquaresOf(iterableExpression);
     }
 
@@ -245,14 +245,17 @@ public class TensoricExpressionSupport<V> {
         return tensoricFieldUsage.testIfIt(iterableExpression);
     }
 
+    @Deprecated
     public <X> Expression<V> rmsOfF(Expression<DiscreteFunction<X, V>> functionExpresssion) {
         return functionExpressionSupport.rmsOfF(functionExpresssion);
     }
 
+    @Deprecated
     public <X> Expression<V> averageOfF(Expression<DiscreteFunction<X, V>> functionExpresssion) {
         return functionExpressionSupport.averageOfF(functionExpresssion);
     }
 
+    @Deprecated
     public <X> FunctionExpressionSupportWithConversionAndComparator<X, V> withConversionAndComparator(
             Conversion<X, V> conversion, Comparator<X> comparator) {
         return functionExpressionSupport.withConversionAndComparator(conversion, comparator);

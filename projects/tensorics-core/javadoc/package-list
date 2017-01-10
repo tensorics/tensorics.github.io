@@ -59,4 +59,5 @@ org.tensorics.core.util
 org.tensorics.core.util.chains
 org.tensorics.core.util.names
 org.tensorics.incubate.function
+org.tensorics.incubate.spaces
 org.tensorics.incubate.uom
