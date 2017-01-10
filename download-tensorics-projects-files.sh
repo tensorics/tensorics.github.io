@@ -10,15 +10,17 @@ function clear_dir {
 
 base_dir=$(pwd)
 working_dir=$base_dir'/related-projects-tmp'
+projects_dst=$base_dir'/projects'
 
 core_tmp_dir=$working_dir'/tensorics-core'
-core_dst=$base_dir'/tensorics-core'
-core_javadoc_dst=$base_dir'/tensorics-core'
+core_dst=$projects_dst'/tensorics-core'
+core_javadoc_dst=$projects_dst'/tensorics-core'
 
 expression_tmp_dir=$working_dir'/tensorics-expression'
-expression_dst=$base_dir'/tensorics-expression'
-expression_javadoc_dst=$base_dir'/tensorics-expression'
+expression_dst=$projects_dst'/tensorics-expression'
+expression_javadoc_dst=$projects_dst'/tensorics-expression'
 
+clear_dir $projects_dst
 clear_dir $working_dir
 clear_dir $core_dst
 clear_dir $expression_dst

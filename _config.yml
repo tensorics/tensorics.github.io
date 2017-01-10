@@ -4,10 +4,10 @@ description: "Tensorics Java Library Website"
 baseurl: ""
 url: "http://tensorics.github.io/"
 
-tensorics-core-dir: "/tensorics-core"
-tensorics-core-javadoc: "/tensorics-core/javadoc"
-tensorics-expression-dir: "/tensorics-expression"
-tensorics-expression-javadoc: "/tensorics-expression/javadoc"
+tensorics-core-dir: "/projects/tensorics-core"
+tensorics-core-javadoc: "/projects/tensorics-core/javadoc"
+tensorics-expression-dir: "/projects/tensorics-expression"
+tensorics-expression-javadoc: "/projects/tensorics-expression/javadoc"
 
 exclude: ["Gemfile", "Rakefile", "*.iml", "*.sh", "README.adoc"]
 encoding: utf-8
