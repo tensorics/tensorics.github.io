@@ -57,6 +57,10 @@
 			
 		
 			
+				<li role="presentation" class="active"><a class="page-link" href="/projects/tensorics-core/manual/">Tensorics Manual</a></li>
+			
+		
+			
 				<li role="presentation" ><a class="page-link" href="/projects/tensorics-core/quickstart/">Tensorics Quickstart Guide</a></li>
 			
 		
@@ -141,88 +145,152 @@ for later iterations. Any contributions are welcome.
 </div>
 </div>
 <div class="sect1">
-<h2 id="getting_started"><a class="anchor" href="#getting_started"></a>Getting Started</h2>
+<h2 id="introduction"><a class="anchor" href="#introduction"></a>Introduction</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>A common need in applications that manipulate numerical data is to organize them in data structures which allow easy transformations and calculations. This paper describes the ensorics library for the Java programming language which provides several, complementary concepts to ease such tasks. Despite the libraries name is derived from "tensor", it contains several additional concepts which complement each other.
+The features are designed to work smoothly together, but each of them can of course also be used stand-alone. In the following sections, we give a short overview on the different concepts, together with some explanatory code examples.</p>
+</div>
 <div class="sect2">
 <h3 id="tensors"><a class="anchor" href="#tensors"></a>Tensors</h3>
 <div class="paragraph">
-<p>The core object of tensorics is a Tensor.
-Therefore, lets start and create one. The simplest Tensor is a tensor of zero dimensions and
-exactly one element. This can be created in the simplest
-case by</p>
+<p>The name "Tensorics" is derived from "Tensor".
+Loosely speaking, a tensor in mathematics is a multidimensional data structure,
+whose dimensionality is given by the number of indices.
+A tensor of dimensionality N contains a value for each N-tuple of index values.
+Tensors in mathematics are usually denoted by noting their elements with a full set of indices.
+E.g. an element of a 3-dimensional tensor \tens{A} would be denoted as \tensel{a_{ijk}}. Each index ($i,j,k$) can potentially have its own range (e.g. $1 &#8656; i &#8656;  M_i$, $1 &#8656; j &#8656;  M_j$, $1 &#8656; k &#8656;  M_k$).</p>
+</div>
+<div class="paragraph">
+<p>Another way to see this is that a tensor has a value for each point in an N-dimensional integer space. In the above notation a dimension is identified by the position of the respective index, and the coordinate in that dimension is given by the value of the index.
+These mathematical concepts are extremely useful, especially when it comes to operations on such tensors (as we see in later sections). Therefore, \tensorics{} borrows many concepts from mathematics. At the same time it translates them into the  programming language in a way that is aimed to form a powerful data structures which encourages readable code as much as possible and helps avoiding confusion and mistakes. For this reason, we use the word "Tensor" in an even sloppier manner.</p>
+</div>
+<div class="paragraph">
+<p>The main particularity of a tensorics tensor is that a dimension is not identified by the position of the index, but by a java type (class). Instances of the respective type we denote as \emph{coordinates}. A point within the N-dimensional coordinate space is then defined by a set of objects (instances of coordinate classes), of which each type must be exactly once.  This key concept allows easier and less error-prone usage (because the order of the coordinates/indices is not relevant) and still leads to readable code.</p>
+</div>
+<div class="paragraph">
+<p>A \tensorics{} tensor has one type parameter, the type of the values it contains, usually denoted as \code{&lt;V&gt;}. Therefore, the tensor data structure can be used as container for any Java type. However, some operations on the tensors will be only possible for certain value types (e.g. mathematical operations).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="an_example"><a class="anchor" href="#an_example"></a>An Example</h3>
+<div class="paragraph">
+<p>Since tensorics concepts and syntax are best explained in a practical walk-through, we will use the following example throughout the subsequent sections:</p>
+</div>
+<div class="paragraph">
+<p>Consider weather analysis: A data set consists of weather data from different cities and times. The class City and Time are defined and some constants are instantiated.  Temperature values are stored in a tensor of doubles, for example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">        Tensor&lt;<span class="predefined-type">String</span>&gt; user = Tensorics.scalarOf(<span class="string"><span class="delimiter">&quot;</span><span class="content">user</span><span class="delimiter">&quot;</span></span>);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">City SF = City.ofName(<span class="string"><span class="delimiter">&quot;</span><span class="content">San Francisco</span><span class="delimiter">&quot;</span></span>);
+City LA = City.ofName(<span class="string"><span class="delimiter">&quot;</span><span class="content">Los Angeles</span><span class="delimiter">&quot;</span></span>);
+
+<span class="predefined-type">Time</span> T1 = <span class="predefined-type">Time</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">2017-01-01 15:00</span><span class="delimiter">&quot;</span></span>);
+<span class="predefined-type">Time</span> T2 = <span class="predefined-type">Time</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">2017-01-02 15:00</span><span class="delimiter">&quot;</span></span>);
+
+Tensor&lt;<span class="predefined-type">Double</span>&gt; degrees;
+<span class="comment">/* creation omitted */</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="accessing_values"><a class="anchor" href="#accessing_values"></a>Accessing Values</h3>
+<div class="paragraph">
+<p>Assuming the above constants, we can then simply get temperature values from the tensor:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Double</span> t = degrees.get(T1, SF);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>More complicated tensors can be created using a builder:</p>
+<p>As visible here, this looks very similar to getting values from a map, with the following important differences:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The get method of a tensor accepts N arguments, one for each dimension.</p>
+</li>
+<li>
+<p>The get method of a tensor never returns <code>null</code>. It will throw an appropriate exception in case there is no value available in the tensor for the given set of coordinates.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In general, it shall be noted that all methods within the tensorics library are designed to fail fast. This is particularly important because \tensorics{}, due to its flexible API, cannot rely on compile-time checks in many cases and thus some errors only appear at runtime.</p>
+</div>
+<div class="paragraph">
+<p>The set of N coordinates is called a <em>position</em> in tensorics. Thus, the code from the above listing is equivalent to</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Builder&lt;<span class="predefined-type">Double</span>&gt; builder = ImmutableTensor.builder(X.class, Y.class); <i class="conum" data-value="1"></i><b>(1)</b>
-
-builder.at(<span class="keyword">new</span> X(<span class="float">1.0</span>), <span class="keyword">new</span> Y(<span class="float">0.0</span>)).put(<span class="float">5.0</span>); <i class="conum" data-value="2"></i><b>(2)</b>
-builder.at(<span class="keyword">new</span> X(<span class="float">1.0</span>), <span class="keyword">new</span> Y(<span class="float">1.0</span>)).put(<span class="float">6.0</span>);
-
-Tensor&lt;<span class="predefined-type">Double</span>&gt; tensor = builder.build(); <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Position</span> position = <span class="predefined-type">Position</span>.of(T1, SF);
+<span class="predefined-type">Double</span> t = degrees.get(position);</code></pre>
 </div>
 </div>
-<div class="colist arabic">
+</div>
+<div class="sect2">
+<h3 id="main_entry_point"><a class="anchor" href="#main_entry_point"></a>Main Entry Point</h3>
+<div class="paragraph">
+<p>The interfaces of tensorics objects are kept very slim and usually only provide the absolutely necessary methods. All the other operations on these objects is based on static methods operating on them. The main entry point for these methods (containing all the methods which are not specific to certain value types) is the class \code{Tensorics}. This class contains also, for example, a delegation method to the \code{Position.of()} method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Position</span> position = Tensorics.at(T1, SF);
+<span class="comment">/* with static import: */</span>
+<span class="predefined-type">Position</span> position = at(T1, SF);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using a static import for this, allows concise code which will be particularly important when creating tensors.</p>
+</div>
+<div class="admonitionblock note">
 <table>
 <tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Creating the builder. The dimensions have to be given here. Dimensions are the classes of the coordinates.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Putting values to the builder. For each class, given as dimension, exactly one instance has to be given in the at() clause.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Creates the real tensor.</td>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In all the following code examples, we assume that, whenever there is a plain method call, then it is a static method from the <code>Tensorics</code> class (or in other words that <code>Tensorics.</code> is imported statically).
+</td>
 </tr>
 </table>
 </div>
 </div>
 <div class="sect2">
-<h3 id="coordinates_and_dimensions"><a class="anchor" href="#coordinates_and_dimensions"></a>Coordinates and Dimensions</h3>
+<h3 id="creating_tensors"><a class="anchor" href="#creating_tensors"></a>Creating Tensors</h3>
 <div class="paragraph">
-<p>The above example illustrates already the most important concept of tensorics: Values of a tensor are addressed by
-coordinates in an arbitrary N-dimensional space. Each dimension of this space is uniquely coupled to a type of
-coordinate (The X and Y classes in the previous example). This might look a bit awkward at a first glance, because
-one has to define a class for each dimension. Further, many users might wonder, why we are not using indizes,
-like you would expect for a tensor (as in mathematics). This design choice has the following advantages:</p>
+<p>All currently available implementations of tensors are immutable. The usual way to create them is through builders. For example, to create our temperature tensor and put 4 values into it, we would have to do something like:</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>This approach can be considered as a natural generalization of a java map.</p>
-</li>
-<li>
-<p>Having a class for each dimension, maps nicely to the way of speaking about multidimensional objects. Thing e.g. of
-'At this point, the Y-value is &#8230;&#8203;' or 'In direction of X &#8230;&#8203;'.</p>
-</li>
-<li>
-<p>While addressing values by indizes might be ok for a small amount of dimensions, it becomes a hassle for many dimensions.
-Simply think about multidimensional arrays: How often did you mix up the order of indizes? Having a class per dimension
-clearly reveals its purpose.</p>
-</li>
-<li>
-<p>This approach makes a tensor much more flexible. Consider the following example: If you would address elements of
-a matrix by row/column indizes, you would be forced to have the same number of columns in all the rows. While this
-might be preferrable for many applications, sometimes it is simply a too strict constraint for data in real live.
-Using a two-dimensional tensor is more flexible in this case - and you can still perform all the mathematical
-operations, as you will see later ;-)</p>
-</li>
-</ul>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Tensor&lt;<span class="predefined-type">Double</span>&gt; degrees =
+    builder(City.class, <span class="predefined-type">Time</span>.class)
+         .put(at(SF, T1), <span class="float">12.5</span>)
+         .put(at(SF, T2), <span class="float">14.2</span>)
+         .put(at(LA, T1), <span class="float">17.5</span>)
+         .put(at(LA, T2), <span class="float">19.2</span>)
+         .build();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Again, the syntax is very similar to building an immutable map. And indeed this is another way how a \tensorics{} tensor can be seen: As a map from position to a value - and it can be transformed into one:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Map</span>&lt;<span class="predefined-type">Position</span>, <span class="predefined-type">Double</span>&gt; degreesMap =         mapFrom(degrees);</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="working_with_tensors"><a class="anchor" href="#working_with_tensors"></a>Working with Tensors</h3>
+<h3 id="scalar"><a class="anchor" href="#scalar"></a>Scalar</h3>
 <div class="paragraph">
-<p>The /projects/tensorics-core/javadoc/org/tensorics/core/tensor/Tensor.html[Tensor] is the base interface.</p>
+<p>A tensor can have zero dimensions. This particular tensor we denote as <em>scalar</em> in \tensorics{}. It has exactly one value at the position <code>Position.empty()</code>. A scalar can simply be created using the static factory method</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Scalar&lt;<span class="predefined-type">Double</span>&gt; scalar = scalarOf(<span class="float">2.5</span>);</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -230,246 +298,313 @@ operations, as you will see later ;-)</p>
 <div class="sect1">
 <h2 id="structural_operations"><a class="anchor" href="#structural_operations"></a>Structural Operations</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Up to now, we were simply using a tensor as a kind-of map with combined keys. However, the real power is unleashed only when it comes to transformations. For this it is useful to understand on additional concept:</p>
+</div>
+<div class="sect2">
+<h3 id="shape"><a class="anchor" href="#shape"></a>Shape</h3>
+<div class="paragraph">
+<p>Just like a map has its set of keys, a tensorics tensor has a shape. It basically describes the structure of the tensor, without its values. Basically it contains the following information:
+- The dimensions of the tensor (e.g. <code>Time.class</code> and <code>City.class</code> in the above example) and
+- The available positions in the tensor.</p>
+</div>
+<div class="paragraph">
+<p>The shape can be retrieved from the tensor and used for our example like the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Shape</span> shape = degrees.shape();
 
+<span class="predefined-type">Set</span>&lt;<span class="predefined-type">Class</span>&lt;?&gt;&gt; dims = shape.dimensionSet();
+<span class="comment">/* Contains Time.class and City.class */</span>
+
+<span class="type">int</span> dim = shape.dimensionality();
+<span class="comment">/* Will be 2 */</span>
+
+<span class="predefined-type">Set</span>&lt;<span class="predefined-type">Position</span>&gt; poss = shape.positionSet();
+<span class="comment">/* contains the 4 positions */</span>
+
+<span class="type">int</span> size = shape.size();
+<span class="comment">/* Will be 4 */</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="extracting_subtensors"><a class="anchor" href="#extracting_subtensors"></a>Extracting Subtensors</h3>
+<div class="paragraph">
+<p>One very common structural operation is extracting sub-tensors from a tensor:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Tensor&lt;<span class="predefined-type">Double</span>&gt; sfDegrees = from(degrees).extract(SF);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will result in a 1-dimensional tensor, only containing coordinates of type <code>Time</code>. The complementary operation to this is called <em>merging</em> tensors.</p>
+</div>
+<div class="paragraph">
+<p>\textbf{Note:} while in the <code>get</code> method, the number of coordinates always has to exactly match the dimensionality of the tensor (otherwise the method will throw), the \code{extract} method takes any subset of the dimensions as argument; the \code{get} method returns the values of the tensor, while the \code{extract} method returns again a tensor. This implies that if coordinates for all dimensions are provided as arguments for the extract method, then a zero-dimensional tensor is returned. The returned tensor can be empty in case no elements exist at the extracted coordinates.</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="mathematical_operations"><a class="anchor" href="#mathematical_operations"></a>Mathematical Operations</h2>
 <div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
-<h2 id="fields"><a class="anchor" href="#fields"></a>Fields</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="tensorbackeds"><a class="anchor" href="#tensorbackeds"></a>Tensorbackeds</h3>
-
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="tensor_manipulations"><a class="anchor" href="#tensor_manipulations"></a>Tensor manipulations</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="operation"><a class="anchor" href="#operation"></a>Operation</h3>
 <div class="paragraph">
-<p>Tensorics framework gives you an easy access to the most common calculations and operations you need such as:</p>
+<p>One important motivation to use tensors is of course to have simple and intuitive ways to perform mathematical operations on them. While the structural operations - as described up to now - can be performed on tensors of any value types, it is clear that mathematical operations can be only done with tensor values of particular types.</p>
 </div>
+<div class="sect2">
+<h3 id="mathematical_structures"><a class="anchor" href="#mathematical_structures"></a>Mathematical Structures</h3>
+<div class="paragraph">
+<p>Tensorics does not strictly restrict the types on which mathematical operations can be performed, but provides an extension mechanism through which - in principle - the mathematical capabilities can be added for any value type. In practice this makes only sense (and is only necessary) for a limited number of value types. The extension mechanism requires to provide (with $a,b,c$ being tensor values):</p>
+</div>
+<hr>
 <div class="ulist">
 <ul>
 <li>
-<p>adding, subtracting, multiplying and dividing;</p>
+<p>Two binary operations, addition ( + ) and multiplication ( * ) with the following properties:</p>
 </li>
 <li>
-<p>relevant inversion calculation: like negative and 1 over;</p>
+<p>both, + and * are associative: $a + (b + c) = (a + b) + c$; $a * (b * c) = (a * b) * c$.</p>
 </li>
 <li>
-<p>performing a reduction of a tensors with provided behavior:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>we can slice an input tensor at given coordinate(s)</p>
+<p>both, + and * have an identity element (Called '0' for +, '1' for * ): $a + 0 = a$; $a * 1 = a$.</p>
 </li>
 <li>
-<p>we can average an input tensor over specified coordinate</p>
+<p>both, + and * have an inverse element (Called '-a' for +, '1/a' for * ): $a + (-a) = 0$; $a * 1/a = 1$.</p>
+</li>
+<li>
+<p>both, + and * are commutative: $a + b = b + a$; $a * b = b * a$.</p>
+</li>
+<li>
+<p>* is distributive over +: $a * (b + c) = a * b + a * c$.</p>
 </li>
 </ul>
 </div>
-</li>
-</ul>
+<hr>
+<div class="paragraph">
+<p>Mathematically speaking, the two operations form the algebraic structure of a <em>field</em> \cite{wikipedia-field} over the tensor values <code>&lt;V&gt;</code>:
+---
+* Two additional binary operations: Power ($a^b$) and Root ($\sqrt[b]{a}$).
+* A conversion function of the tensor values to and from doubles.
+---
+If these operations are provided to generic support classes of \tensorics{}, then all the manipulations based in the following will be available by inheriting from these support classes. The biggest advantage of the approach used in tensorics for defining a field (and using external methods for calculations - not methods of the field elements) is that it (technically) does not impose any constraints on the value type and thus avoids e.g. wrapper objects as necessary in the field-implementations of other math libraries (e.g. Apache Commons Math \cite{apache-commons-math}).</p>
 </div>
 <div class="paragraph">
-<p>In order to have an operation completed a definition of the Shape has to be introduced - it is a 'raw' view on the coordinates (keys) in the tensor.
-An introduction to basic behaviours can be found in following class.</p>
+<p>Out of the box, tensorics currently provides an implementation of these requirements for doubles. To simplify these very frequently required operations, it provides also a convenience class (\code{TensoricsDoubles}) with static delegation methods to the support classes. Such convenience will not be available out of the box for custom value types, but can be easily added in a similar way. Whenever there is trailing method call in the following examples, we will assume that it is a static method from the class \code{TensoricDoubles}.</p>
+</div>
+<div class="sect3">
+<h4 id="unary_operations"><a class="anchor" href="#unary_operations"></a>Unary Operations</h4>
+<div class="paragraph">
+<p>Next to operations on tensors, the support classes also provide convenience operations for iterables. For example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">    <span class="comment">/**
-     * Creates a new instance of an Option registry, supporting the given field, which will contain the default options,
-     * as there are:
-     * &lt;ul&gt;
-     * &lt;li&gt;{@link IntersectionShapingStrategy} for shaping strategy.&lt;/li&gt;
-     * &lt;li&gt;{@link BroadcastMissingDimensionsStrategy} for broadcasting strategy&lt;/li&gt;
-     * &lt;li&gt;{@link RequireBothValidStrategy}&lt;/li&gt;
-     * &lt;li&gt;{@link UncorrelatedErrorPropagationStrategy}&lt;/li&gt;
-     * &lt;li&gt;{@link JScienceQuantificationStrategy}&lt;/li&gt;
-     * &lt;li&gt;{@link LeftContextPreservedStrategy}&lt;/li&gt;
-     * &lt;li&gt;{@link LinearInterpolationStrategy}
-     * &lt;/ul&gt;
-     *
-     * @param field the for which to create the option-instances
-     * @return a new (immutable) option registry, containing the default options
-     */</span>
-    <span class="annotation">@SuppressWarnings</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">deprecation</span><span class="delimiter">&quot;</span></span>)
-    <span class="directive">public</span> <span class="directive">static</span> &lt;T&gt; OptionRegistry&lt;ManipulationOption&gt; defaultOptions(ExtendedField&lt;T&gt; field) {
-        <span class="keyword">return</span> ImmutableOptionRegistry.of(ImmutableList.of(<span class="comment">//</span>
-                IntersectionShapingStrategy.get(), <span class="comment">//</span>
-                BroadcastMissingDimensionsStrategy.get(), <span class="comment">//</span>
-                <span class="keyword">new</span> RequireBothValidStrategy(), <span class="comment">//</span>
-                <span class="keyword">new</span> UncorrelatedErrorPropagationStrategy&lt;&gt;(field), <span class="comment">//</span>
-                <span class="keyword">new</span> JScienceQuantificationStrategy&lt;&gt;(field.cheating()), <span class="comment">//</span>
-                LeftContextPreservedStrategy.get(),
-                <span class="keyword">new</span> ImmutableConfidenceLevel&lt;&gt;(field.cheating().fromDouble(DEFAULT_CONFIDENCE_LEVEL)),
-                <span class="keyword">new</span> LinearInterpolationStrategy&lt;&gt;(field)));
-    }</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Iterable</span>&lt;<span class="predefined-type">Double</span>&gt; v = <span class="predefined-type">Arrays</span>.asList(<span class="float">1.0</span>, <span class="float">2.0</span>);
+<span class="predefined-type">Iterable</span>&lt;<span class="predefined-type">Double</span>&gt; negv = negativeOf(v);
+<span class="predefined-type">Double</span> vsize = sizeOf(v);
+
+Tensor&lt;<span class="predefined-type">Double</span>&gt; t; <span class="comment">/* creation omitted */</span>
+Tensor&lt;<span class="predefined-type">Double</span>&gt; negt = negativeOf(t);
+<span class="predefined-type">Double</span> tsize = sizeOf(t);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="basic_statistics"><a class="anchor" href="#basic_statistics"></a>Basic Statistics</h4>
+<div class="paragraph">
+<p>Some very simple statistical methods are provided out of the box. For iterables, the results are simply of type of the elements of the iterable:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Iterable</span>&lt;<span class="predefined-type">Double</span>&gt; v = <span class="predefined-type">Arrays</span>.asList(<span class="float">1.0</span>, <span class="float">2.0</span>);
+<span class="predefined-type">Double</span> avg = averageOf(v);
+<span class="predefined-type">Double</span> sum = sumOf(v);
+<span class="predefined-type">Double</span> rms = rmsOf(v);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Knowing about shapes it is possible to set/update a strategy in the framework such that any of the mentioned above operations can
-be performed on a possibly differently shaped tensors for this one has to set proper BroadcastingStrategy. For performing multiplication
-a separate strategy filTheNameOfTheStrategy is foreseen since 2d tensors might be considered as a matrices for which this operation
-looks different.</p>
+<p>On the other hand, for tensors the application of statistical operations is usually done only in one dimension. This corresponds to a reduction of the tensor by one dimension. The provided fluent API reflects this (continuing our example from before):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">/* All these return Tensor&lt;Double&gt;: */</span>
+reduce(degrees).byAveragingOver(<span class="predefined-type">Time</span>.class);
+reduce(degrees).byRmsOver(<span class="predefined-type">Time</span>.class);
+reduce(degrees).bySummingOver(<span class="predefined-type">Time</span>.class);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="binary_operations"><a class="anchor" href="#binary_operations"></a>Binary Operations</h4>
+<div class="paragraph">
+<p>Calculating of operations between two tensors, finally makes the most use. These operations all start using the \code{TensoricDoubles.calculate(&#8230;&#8203;)} method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">/* degrees and offset are Tensor&lt;Double&gt; */</span>
+
+calculate(degrees).plus(offset);
+calculate(degrees).minus(offset);
+calculate(degrees).elementTimes(other);
+calculate(degrees).elementDividedBy(other);
+
+<span class="comment">/* All these return Tensor&lt;Double&gt; */</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here both, the left and right operands are assumed to be tensors. However, bare values are also supported on both sides and will be implicitly be converted to scalars. The four above-mentioned operations are the simplest ones, as they are based on element wise operations: Each element in the left tensor only requires the corresponding element in the right tensor to produce the corresponding element in the resulting tensor. However, this needs some other considerations: What happens if the two operands have different shapes? This problem can be treated in two stages, which are called \emph{broadcasting} and \emph{reshaping} in \tensorics{}. They are explained in the following two sections. \Tensorics{} has a very modular way to treat such cases: Different strategies can be used (and even implemented) by the user in special cases. If nothing is specified, a sensitive default will be used.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="reshaping"><a class="anchor" href="#reshaping"></a>Reshaping</h4>
+<div class="paragraph">
+<p>This is the simpler of the two possible shape-inconsistencies: It means that both tensors in question have the same dimensions, but they have values for different positions (e.g. one has less entries than the other).
+The default behaviour for this case is, that the resulting tensor will have only values for the positions, which are contained in each of the tensor (The intersection of the position set).</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="broadcasting"><a class="anchor" href="#broadcasting"></a>Broadcasting</h4>
+<div class="paragraph">
+<p>The term \emph{broadcasting} is borrowed from the python library \emph{numpy} \cite{numpy-github}. While the underlaying principle is very similar to the numpy one, there are several essential difference which comes from the fact that numpy uses multi-dimensional arrays with integer indices, while tensorics identifies its dimensions by classes: The default broadcasting strategy in \tensorics{} broadcasts all dimensions which are \emph{not} available in one tensor to the shape of the second tensor. In other words, a dimension which is not present in one, will be added to the other tensor and all coordinate values of the respective dimension will potentially be combined with all the positions of the other tensor. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Tensor&lt;<span class="predefined-type">Double</span>&gt; temps =
+  builder(<span class="predefined-type">Time</span>.class)
+    .put(at(T1), <span class="float">10.5</span>)
+    .put(at(T2), <span class="float">12.2</span>)
+    .build();
+
+Tensor&lt;<span class="predefined-type">Double</span>&gt; offsets =
+  builder(City.class)
+    .put(at(SF), <span class="float">2.0</span>)
+    .put(at(LA), <span class="float">7.0</span>)
+    .build();
+
+Tensor&lt;<span class="predefined-type">Double</span>&gt; result = calculate(temps).elementTimes(factors);
+<span class="comment">/* Will contain 4 positions: (SF, T1), (SF, T2), (LA, T1), (LA, T2) */</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result will be exactly the same tensor as constructed in \lstref{buildingATensor}. When performing binary operations, the two operands are first both broadcasted and then reshaped. This ensures that the dimensions are correct and then that all the relevant elements operate on their corresponding partners.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="inner_product"><a class="anchor" href="#inner_product"></a>Inner Product</h4>
+<div class="paragraph">
+<p>This very particular multiplication of two tensors is basically the generalization of the matrix multiplication. The syntax is as simple as it can be:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">calculate(degrees).times(other);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To have this yield the expected results, co- and contra-variant dimensions have to be distinguished. In \tensorics{}, this distinction is achieved by the following mechanism: By default, coordinates are assumed to be contravariant. Covariant coordinates are forced to inherit from the class \code{Covariant&lt;C&gt;}, where the generic parameter \code{&lt;C&gt;} is the type of the corresponding contravariant coordinate. Detailed information about this can be found in the tensorics source code documentation \cite{tensorics-javadoc}.</p>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="reduction_merge"><a class="anchor" href="#reduction_merge"></a>Reduction &amp; Merge</h3>
+<h3 id="physical_quantities_and_units"><a class="anchor" href="#physical_quantities_and_units"></a>Physical Quantities and Units</h3>
 <div class="paragraph">
-<p>Result of such operation  will again be a tensor but with a simplified/improved set of
-dimensions (accordingly to provided input). Simple, isn&#8217;t it?</p>
+<p>Another very common problem in scientific applications is the proper treatment of units. At the current stage, \tensorics{} currently uses internally an external library for this purpose (JScience \cite{jscience}). However, as this library is not actively maintained anymore, it is foreseen to replace this implementation either by a different library or an internal implementation of physical quantities.</p>
 </div>
 <div class="paragraph">
-<p>Going further (we still stay in an example of temperature and pressure) one could imagine a situation when several cities
-are sending the data built on a base of tensor with one dimension (Time) but containing a special context field
-informing about 'higher order' dimensions it can belongs to (ie. Latitude and Longitude of the city).
-A Tensorics framework gives you and access to merge utility that will combine all provided tensors into one containing all data.
-This all will of course be only done if all provided inputs will be marked with the same 'higher order' dimensions.</p>
-</div>
-<div class="paragraph">
-<p>Let&#8217;s consider simple example of three dimension tensor of temperature and another one (same dimensionality) of an
- atmospheric pressure. Let&#8217;s define those three dimensions as following:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Time</p>
-</li>
-<li>
-<p>Latitude</p>
-</li>
-<li>
-<p>Longitude</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Let&#8217;s fill it later with some real data from two decades, with a day sampling for a few European cities.</p>
+<p>For this reason, \tensorics{} already provides its own abstraction of units. A physical unit is represented by the class \code{Unit} and a value-unit pair is represented by the class \code{QuantifiedValue}. Factory methods for quantified values are available in the \code{Tensorics} class. Convenience overrides are provided which support both \tensorics{} internal unit objects and JScience instances of units. Operations are available in the support classes for the corresponding value types, like for doubles e.g. in the class \code{TensoricDoubles}. With this, operations like the following are possible:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">    <span class="directive">public</span> Tensor&lt;QuantifiedValue&lt;<span class="predefined-type">Double</span>&gt;&gt; importDataForCities() {
-        <span class="keyword">return</span> FakeMeteoDataImporter.importFromPast();
-    }</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">QuantifiedValue&lt;<span class="predefined-type">Double</span>&gt; distance = Tensorics.quantityOf(<span class="float">10.0</span>, SI.METER);
+
+QuantifiedValue&lt;<span class="predefined-type">Double</span>&gt; time = Tensorics.quantityOf(<span class="float">5.0</span>, SI.SECOND);
+
+QuantifiedValue&lt;<span class="predefined-type">Double</span>&gt; speed = calculate(distance).dividedBy(time);
+<span class="comment">/* results in 2 m/s */</span>
+
+<span class="predefined-type">Double</span> value = speed.value(); <span class="comment">// 2.0</span>
+Unit unit = speed.unit(); <span class="comment">// m/s</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>And let&#8217;s try to calculate some average temperature at some given latitude. With Tensorics framework it&#8217;s easier than you think:</p>
+<p>Also support methods to work with tensors of quantified values are provided, e.g.:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">    <span class="comment">/*
-     * calculate an average monthly temperature at the ROME Latitude like cities
-     */</span>
-    <span class="annotation">@SuppressWarnings</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">unused</span><span class="delimiter">&quot;</span></span>)
-    <span class="directive">public</span> <span class="type">void</span> calculate() {
+<pre class="CodeRay highlight"><code data-lang="java">Tensor&lt;QuantifiedValue&lt;<span class="predefined-type">Double</span>&gt;&gt; measurement;
+Tensor&lt;QuantifiedValue&lt;<span class="predefined-type">Double</span>&gt;&gt; reference;
+<span class="comment">/* construction omitted */</span>
 
-        Tensor&lt;QuantifiedValue&lt;<span class="predefined-type">Double</span>&gt;&gt; importedData = importDataForCities();
-        Latitude romeLatitude = EuropeanCapital.ROMA.getLatitude();
-        Tensor&lt;QuantifiedValue&lt;<span class="predefined-type">Double</span>&gt;&gt; sliceAtTropicCancerAndRome = from(importedData).extract(romeLatitude);
-
-        Temperature temperature = <span class="keyword">new</span> Temperature(importedData);
-
-        Tensor&lt;QuantifiedValue&lt;<span class="predefined-type">Double</span>&gt;&gt; elementTimes = calculateQ(importedData).elementTimes(importedData);
-        Temperature elementTimes2 = calculateQ(temperature).elementTimes(temperature);
-
-        <span class="comment">/* dimension will be reduced to only Longitude and Time */</span>
-        sliceAtTropicCancerAndRome.shape().dimensionSet();
-        <span class="comment">//</span>
-        <span class="comment">// from(sliceAtTropicCancerAndRome).reduce(Time.class).byAveragingIn(field)</span>
-
-        TensoricSupport&lt;<span class="predefined-type">Double</span>&gt; fullTensoricSupport = Tensorics.using(Structures.doubles());
-
-    }</code></pre>
+Tensor&lt;QuantifiedValue&lt;<span class="predefined-type">Double</span>&gt;&gt; difference = calculate(measurement).minus(reference);</code></pre>
 </div>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="backing_up_your_objects"><a class="anchor" href="#backing_up_your_objects"></a>Backing up your objects.</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Very often there is a need to access the data in unique, special way. You can use Tensor&lt;V&gt; objects to hold data and expose it in
-the way you like and need. The thing you need is called TensorBacked&lt;V&gt; interface that your class has to implement.</p>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-It is good practice to have only one constructor of you domain object that accepts only Tensor&lt;V&gt; as an argument.
-A special @Dimensions annotation gives the meta data for the framework to know, what dimensions are held inside.
-</td>
-</tr>
-</table>
 </div>
 <div class="sect2">
-<h3 id="full_support_for_tensorbacked_v_objects"><a class="anchor" href="#full_support_for_tensorbacked_v_objects"></a>Full support for TensorBacked&lt;V&gt; objects</h3>
+<h3 id="error_and_validity_propagation"><a class="anchor" href="#error_and_validity_propagation"></a>Error and Validity Propagation</h3>
 <div class="paragraph">
-<p>The framework gives you a full support to perform all calculations (in direct and deferred way) directly with your customized objects.
-The return type of the calculation is always the same as the input type.</p>
+<p>Especially when using tensors for measured values, it is important to understand the errors after a series of calculations. Further, it is can be that individual points in a tensor contain invalid data. It then makes no sense to do calculations with them. \Tensorics{} provides dedicated mechanisms for this cases. The \code{QuantifiedValue}s contain two additional fields: a (boolean) validity flag and an optional value for an error (uncertainty). All the operations on quantified values (and on tensors of quantified values) take this fields into account. The exact behavior can again be configured by the use of explicit strategies. The defaults are:
+---
+* If an invalid value is used in a calculation, then the resulting value will be invalid.
+* The values involved in the calculations will be treated as independent variables and the error is propagated to the resulting value accordingly \cite{error-propagation-wikipedia}.
+---</p>
 </div>
 <div class="paragraph">
-<p>Let&#8217;s again start with instantiation of the framework.</p>
+<p>Comparisons between quantities take into account their associated errors assuming Gaussian statistics. The confidence level is 95\% unless specified otherwise. This allows to conveniently check if a quantity is significantly less, equal, or greater than another. For example, $90 \pm 1 \mathrm{m}$ is significantly less than $100 \pm 10  \mathrm{m}$ at a confidence level of 68\% but not at 95\%.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">fullTensoricSupport = Tensors.using(Structures.doubles());</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">QuantifiedValue&lt;<span class="predefined-type">Double</span>&gt; q90pm1 = quantityOf(<span class="float">90.0</span>, METER).withError(<span class="float">1.0</span>);
+QuantifiedValue&lt;<span class="predefined-type">Double</span>&gt; q100pm10 = quantityOf(<span class="float">100.0</span>, METER).withError(<span class="float">10.0</span>);
+
+<span class="comment">/* false at 95% confidence (default): */</span>
+testIf(q90pm1).isLessThan(q100pm10);
+
+<span class="comment">/* true at 68% confidence: */</span>
+with(confidenceLevelOf(<span class="float">0.68</span>)).testIf(q90pm1).isLessThan(q100pm10);</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="tensorbacked_domain_objects"><a class="anchor" href="#tensorbacked_domain_objects"></a>Tensorbacked Domain Objects</h3>
 <div class="paragraph">
-<p>Then let&#8217;s consider an object for our objects that is TensorBacked&lt;Double&gt; object and simplifies the access to the data.
-It&#8217;s simple definition looks like the following:</p>
+<p>While working with tensors gives all the flexibility of transformations and calculations, very often it is desirable to give more meaning to objects. Usually one would create dedicated domain objects in these cases. However, this would mean giving up all the convenient support methods. To combine the best of both approaches, \tensorics{} provides a built-in mechanism for creating domain objects which wrap tensors inside and allow almost the same calculations and transformations as plain tensors. These objects are called \code{Tensorbacked}s and can be defined by the user as required. The simplest way to do so is to inherit from \code{AbstractTensorbacked}. An important property of tensorbacked objects is that each of them has a fixed set of dimensions, which are defined through the dedicated annotation \code{@Dimensions}. For example, if one would like to define some domain object that contains temperatures, one could do so by</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Dimensions</span>({ Beam.class, Plane.class, Bpm.class })
-<span class="directive">public</span> <span class="type">class</span> <span class="class">MultibeamOrbit</span> <span class="directive">implements</span> Tensorbacked&lt;<span class="predefined-type">Double</span>&gt; {
-
-    <span class="directive">private</span> <span class="directive">final</span> Tensor&lt;<span class="predefined-type">Double</span>&gt; tensor;
-
-    <span class="directive">public</span> MultibeamOrbit(Tensor&lt;<span class="predefined-type">Double</span>&gt; tensor) {
-        <span class="local-variable">this</span>.tensor = tensor;
-    }
-
-    <span class="directive">public</span> <span class="type">double</span> getValueAt(<span class="predefined-type">String</span> string, Beam beam, Plane plane) {
-        <span class="keyword">return</span> tensor.get(beam, plane, <span class="keyword">new</span> Bpm(string));
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> Tensor&lt;<span class="predefined-type">Double</span>&gt; tensor() {
-        <span class="keyword">return</span> <span class="local-variable">this</span>.tensor;
-    }
-
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Dimensions</span>({<span class="predefined-type">Time</span>.class, City.class})
+<span class="directive">public</span> <span class="type">class</span> <span class="class">TemperatureMap</span>
+    <span class="directive">extends</span> AbstractTensorbacked&lt;<span class="predefined-type">Double</span>&gt; {
+    <span class="comment">/* empty (except a constructor) */</span>
 }</code></pre>
 </div>
 </div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-The  Beam.class, Plane.class, Bpm.class are the coordinate classes that are declared to be used by @Dimensions annotation.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>Instances of these classes can then be created using simply an existing tensor or a builder. Calculations can be performed like with bare tensors.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">TemperatureMap measured = Tensorics.construct(TemperatureMap.class).from(degrees);
+
+TemperatureMap reference = Tensorics
+    .builderFor(TemperatureMap.class)
+      .put(at(SF, T1), <span class="float">10.0</span>)
+      .build();
+
+TemperatureMap diff = DoubleTensorics.calculate(measured).minus(reference);</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>Last build:		2018-01-28 18:43:06 CET</p>
+<p>When using a builder, the dimensions do not have to be given explicitly, as they are already defined through the annotation.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="expression_language"><a class="anchor" href="#expression_language"></a>Expression Language</h3>
+<div class="paragraph">
+<p>All the examples in the previous sections described directly Java executable code. In addition to this, \tensorics{} provides a Java internal domain specific language (DSL) to only describe calculation steps using the same operations as described before. This DSL does not directly execute the calculations, but instead creates an expression tree, which can be evaluated (resolved) in a separate step. Since these expressions can be resolved in different contexts, this can e.g. be used for subscription based online evaluation (e.g. processing data from devices) or processing logged data. This expression language is one of the cornerstones of a recently developed online analysis framework. More details can be found in the corresponding publication \cite{analysis-framework}.</p>
+</div>
+<div class="paragraph">
+<p>Last build:		2018-01-29 18:45:39 CET</p>
 </div>
 </div>
 </div>
