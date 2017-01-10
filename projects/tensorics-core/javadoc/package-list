@@ -56,5 +56,7 @@ org.tensorics.core.tree.domain
 org.tensorics.core.tree.walking
 org.tensorics.core.units
 org.tensorics.core.util
+org.tensorics.core.util.chains
+org.tensorics.core.util.names
 org.tensorics.incubate.function
 org.tensorics.incubate.uom
