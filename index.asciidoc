@@ -3,7 +3,22 @@ layout: default
 title: Home
 ---
 :page-liquid:
-== Tensorics - Handling multidimensional data with pleasure!
+== Tensorics - multidimensional java with pleasure!
+
+[source,java]
+----
+import org.tensorics.core.lang.Tensorics.*;
+
+Tensor<Double> degrees = builder(City.class, Day.class)
+  .put(at(SAN_FRANCISCO, YESTERDAY), 11.5)
+  .put(at(SAN_FRANCISCO, TODAY), 12.5)
+  .put(at(NEW_YORK, YESTERDAY), 2.5)
+  .put(at(NEW_YORK, TODAY), 3.5)
+  .build();
+  
+Tensor<Double> newYork = from(degrees).extract(NEW_YORK); // YESTERDAY -> 2.5,  TODAY -> 3.5
+Double todayInNewYork = degrees.get(NEW_YORK, TODAY); // 3.5
+----
 
 Tensorics is a java framework for data processing of multidimensional data.
 The core object is called a Tensor which represents a collection of values of arbitrary
