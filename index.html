@@ -94,7 +94,6 @@ Tensor&lt;<span class="predefined-type">Double</span>&gt; degrees = builder(City
   .put(at(NEW_YORK, TODAY), <span class="float">3.5</span>)
   .build();
 
-Tensor&lt;<span class="predefined-type">Double</span>&gt; newYork = from(degrees).extract(NEW_YORK); <span class="comment">// YESTERDAY -&gt; 2.5,  TODAY -&gt; 3.5</span>
 <span class="predefined-type">Double</span> todayInNewYork = degrees.get(NEW_YORK, TODAY); <span class="comment">// 3.5</span></code></pre>
 </div>
 </div>
