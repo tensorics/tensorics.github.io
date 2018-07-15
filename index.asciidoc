@@ -3,7 +3,7 @@ layout: default
 title: Home
 ---
 :page-liquid:
-== Tensorics - multidimensional java with pleasure!
+== Tensorics - Multidimensional Java with Pleasure!
 
 [source,java]
 ----
