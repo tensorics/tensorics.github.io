@@ -32,4 +32,4 @@ possibilities for parallel processing and massive distribution of calculations.
 == References
 link:https://github.com/tensorics[Github Project]
 link:{{ site.tensorics-core-javadoc }}[Tensorics Core Javadoc]
-link:{{ site.tensorics-expression-javadoc }}[Tensorics Core Javadoc]
+
