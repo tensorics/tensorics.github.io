@@ -4,10 +4,12 @@ title: Home
 ---
 :page-liquid:
 = Tensorics - Handling multidimensional data with pleasure!
+
 Tensorics is a java framework for data processing of multidimensional data.
 The core object is called a Tensor which represents a collection of values of arbitrary
 types, which are addressed by coordinates in an N-dimensional space (in some sense like a map with composite keys).
 Whenever you are looking for one or more of the following features, tensorics might come in handy:
+
 * multi-dimensional arrays.
 * composite-key maps.
 * mathematical operations over multidimensional data.
