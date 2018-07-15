@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Tensorics Java Library Website">
+
+  <title>Tensorics - Mathematical Remarks</title>
+
+  <link rel="canonical" href="http://tensorics.github.io//projects/tensorics-core/mathematical-remarks/">
+
+  <link rel="preload stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="preload stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel='preload stylesheet' href='//fonts.googleapis.com/css?family=Open+Sans:300,700'>
+  <link rel="preload stylesheet" href="/css/coderay.css">
+  <link rel="preload stylesheet" href="/css/asciidoctor.css">
+  <link rel="preload stylesheet" href="/css/main.css">
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="site-header">
+  <h1><span><a class="site-title" href="/">Tensorics</a></span></h1>
+</div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 col-s-12">
+        <nav>
+<ul class="nav nav-pills nav-stacked">
+	
+	
+		
+
+		
+			
+				<li role="presentation" ><a class="page-link" href="/projects/tensorics-core/src/asciidoc/010-core-features">Core Features</a></li>
+			
+		
+			
+				<li role="presentation" ><a class="page-link" href="/">Home</a></li>
+			
+		
+			
+		
+	
+		
+			<li><p class="nav-group-title">Tensorics Core</p></li>
+		
+
+		
+			
+				<li role="presentation" ><a class="page-link" href="/projects/tensorics-core/tensors/">Tensors</a></li>
+			
+		
+			
+				<li role="presentation" class="active"><a class="page-link" href="/projects/tensorics-core/mathematical-remarks/">Mathematical Remarks</a></li>
+			
+		
+			
+				<li role="presentation" ><a class="page-link" href="/projects/tensorics-core/quickstart/">Tensorics Quickstart Guide</a></li>
+			
+		
+			
+				<li role="presentation" ><a class="page-link" href="/projects/tensorics-core/manual/">Tensorics Manual</a></li>
+			
+		
+	
+		
+			<li><p class="nav-group-title">Tensorics expression</p></li>
+		
+
+		
+			
+				<li role="presentation" ><a class="page-link" href="/projects/tensorics-expression/manual/">Tensorics Expression Manual</a></li>
+			
+		
+	
+</ul>
+</nav>
+
+      </div>
+      <div class="col-md-9 col-s-12">
+        <div class="sect1">
+<h2 id="mathematical_remarks"><a class="anchor" href="#mathematical_remarks"></a>Mathematical Remarks</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="tensors"><a class="anchor" href="#tensors"></a>Tensors</h3>
+<div class="paragraph">
+<p>The name "Tensorics" is derived from "Tensor".
+In mathematics - loosely spoken -, a tensor is a multidimensional data structure,  whose dimensionality is given by the number of indices. A tensor of dimensionality N contains a value for each N-tuple of index values. Tensors in mathematics are usually denoted by noting their elements with a full set of indices. E.g. an element of a 3-dimensional tensor A would be denoted as a_{ijk}. Each index (i,j,k) can potentially have its own range (e.g. 1 &lt; = i &lt; =  M_i, 1 &lt; = j &lt; =  M_j, 1 &lt; = k &lt; =  M_k).</p>
+</div>
+<div class="paragraph">
+<p>Another way to see this is that a tensor has a value for each point in an N-dimensional integer space. In the above notation a dimension is identified by the position of the respective index, and the coordinate in that dimension is given by the value of the index.
+These mathematical concepts are extremely useful, especially when it comes to operations on such tensors (as we see in later sections). Therefore, tensorics borrows many concepts from mathematics. At the same time it translates them into the  programming language in a way that is aimed to form powerful data structures which encourage readable code as much as possible and help avoiding confusion and mistakes. For this reason, we use the word "Tensor" in an even sloppier manner.</p>
+</div>
+<div class="paragraph">
+<p>The main particularity of a tensorics tensor is that a dimension is not identified by the position of the index, but by a java type (class). Instances of the respective type we denote as <em>coordinates</em>. A point within the N-dimensional coordinate space is then defined by a set of objects (instances of coordinate classes), of which each type must be exactly once.  This key concept allows easier and less error-prone usage (because the order of the coordinates/indices is not relevant) and still leads to readable code.</p>
+</div>
+<div class="paragraph">
+<p>A tensorics tensor has one type parameter, the type of the values it contains, usually denoted as <code>&lt;V&gt;</code>. Therefore, the tensor data structure can be used as container for any Java type. However, some operations on the tensors will be only possible for certain value types (e.g. mathematical operations).</p>
+</div>
+</div>
+</div>
+</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Tensorics is an Open Source project started at CERN under <a href="https://raw.githubusercontent.com/tensorics/tensorics-core/master/LICENSE.txt">Apache 2.0</a> license.</footer>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="/js/toc.js"></script>
+</body>
+</html>
