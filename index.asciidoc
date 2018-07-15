@@ -3,7 +3,7 @@ layout: default
 title: Home
 ---
 :page-liquid:
-= Tensorics - Handling multidimensional data with pleasure!
+== Tensorics - Handling multidimensional data with pleasure!
 
 Tensorics is a java framework for data processing of multidimensional data.
 The core object is called a Tensor which represents a collection of values of arbitrary
