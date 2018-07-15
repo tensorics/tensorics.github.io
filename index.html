@@ -81,8 +81,23 @@
       </div>
       <div class="col-md-9 col-s-12">
         <div class="sect1">
-<h2 id="tensorics_handling_multidimensional_data_with_pleasure">Tensorics - Handling multidimensional data with pleasure!</h2>
+<h2 id="tensorics_multidimensional_java_with_pleasure">Tensorics - multidimensional java with pleasure!</h2>
 <div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.tensorics.core.lang.Tensorics</span>.*;
+
+Tensor&lt;<span class="predefined-type">Double</span>&gt; degrees = builder(City.class, Day.class)
+  .put(at(SAN_FRANCISCO, YESTERDAY), <span class="float">11.5</span>)
+  .put(at(SAN_FRANCISCO, TODAY), <span class="float">12.5</span>)
+  .put(at(NEW_YORK, YESTERDAY), <span class="float">2.5</span>)
+  .put(at(NEW_YORK, TODAY), <span class="float">3.5</span>)
+  .build();
+
+Tensor&lt;<span class="predefined-type">Double</span>&gt; newYork = from(degrees).extract(NEW_YORK); <span class="comment">// YESTERDAY -&gt; 2.5,  TODAY -&gt; 3.5</span>
+<span class="predefined-type">Double</span> todayInNewYork = degrees.get(NEW_YORK, TODAY); <span class="comment">// 3.5</span></code></pre>
+</div>
+</div>
 <div class="paragraph">
 <p>Tensorics is a java framework for data processing of multidimensional data.
 The core object is called a Tensor which represents a collection of values of arbitrary
