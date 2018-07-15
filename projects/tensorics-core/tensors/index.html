@@ -81,7 +81,7 @@
       </div>
       <div class="col-md-9 col-s-12">
         <div class="sect1">
-<h2 id="tensor"><a class="anchor" href="#tensor"></a>Tensor</h2>
+<h2 id="tensors"><a class="anchor" href="#tensors"></a>Tensors</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The name "Tensorics" is derived from "Tensor".
@@ -203,7 +203,7 @@ In all the following code examples, we assume that, whenever there is a plain me
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Map</span>&lt;<span class="predefined-type">Position</span>, <span class="predefined-type">Double</span>&gt; degreesMap =         mapFrom(degrees);</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Map</span>&lt;<span class="predefined-type">Position</span>, <span class="predefined-type">Double</span>&gt; degreesMap = mapFrom(degrees);</code></pre>
 </div>
 </div>
 </div>
@@ -215,6 +215,34 @@ In all the following code examples, we assume that, whenever there is a plain me
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Scalar&lt;<span class="predefined-type">Double</span>&gt; scalar = scalarOf(<span class="float">2.5</span>);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="shape"><a class="anchor" href="#shape"></a>Shape</h3>
+<div class="paragraph">
+<p>Up to now, we were simply using a tensor as a kind-of map with combined keys. However, the real power is unleashed only when it comes to transformations. As a precondition of this, it is important to introduct the concept of the tensors <em>Shape</em>: Just like a map has its set of keys, a tensorics tensor has a shape. It basically describes the structure of the tensor, without its values. Basically it contains the following information:
+- The dimensions of the tensor (e.g. <code>Time.class</code> and <code>City.class</code> in the above example) and
+- The available positions in the tensor.</p>
+</div>
+<div class="paragraph">
+<p>The shape can be retrieved from the tensor and used for our example like the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Shape</span> shape = degrees.shape();
+
+<span class="predefined-type">Set</span>&lt;<span class="predefined-type">Class</span>&lt;?&gt;&gt; dims = shape.dimensionSet();
+<span class="comment">/* Contains Time.class and City.class */</span>
+
+<span class="type">int</span> dim = shape.dimensionality();
+<span class="comment">/* Will be 2 */</span>
+
+<span class="predefined-type">Set</span>&lt;<span class="predefined-type">Position</span>&gt; poss = shape.positionSet();
+<span class="comment">/* contains the 4 positions */</span>
+
+<span class="type">int</span> size = shape.size();
+<span class="comment">/* Will be 4 */</span></code></pre>
 </div>
 </div>
 </div>

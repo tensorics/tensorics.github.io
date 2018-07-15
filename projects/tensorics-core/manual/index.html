@@ -83,37 +83,6 @@
         <div class="sect1">
 <h2 id="structural_operations"><a class="anchor" href="#structural_operations"></a>Structural Operations</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>Up to now, we were simply using a tensor as a kind-of map with combined keys. However, the real power is unleashed only when it comes to transformations. For this it is useful to understand on additional concept:</p>
-</div>
-<div class="sect2">
-<h3 id="shape"><a class="anchor" href="#shape"></a>Shape</h3>
-<div class="paragraph">
-<p>Just like a map has its set of keys, a tensorics tensor has a shape. It basically describes the structure of the tensor, without its values. Basically it contains the following information:
-- The dimensions of the tensor (e.g. <code>Time.class</code> and <code>City.class</code> in the above example) and
-- The available positions in the tensor.</p>
-</div>
-<div class="paragraph">
-<p>The shape can be retrieved from the tensor and used for our example like the following:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Shape</span> shape = degrees.shape();
-
-<span class="predefined-type">Set</span>&lt;<span class="predefined-type">Class</span>&lt;?&gt;&gt; dims = shape.dimensionSet();
-<span class="comment">/* Contains Time.class and City.class */</span>
-
-<span class="type">int</span> dim = shape.dimensionality();
-<span class="comment">/* Will be 2 */</span>
-
-<span class="predefined-type">Set</span>&lt;<span class="predefined-type">Position</span>&gt; poss = shape.positionSet();
-<span class="comment">/* contains the 4 positions */</span>
-
-<span class="type">int</span> size = shape.size();
-<span class="comment">/* Will be 4 */</span></code></pre>
-</div>
-</div>
-</div>
 <div class="sect2">
 <h3 id="extracting_subtensors"><a class="anchor" href="#extracting_subtensors"></a>Extracting Subtensors</h3>
 <div class="paragraph">
@@ -389,7 +358,7 @@ TemperatureMap diff = DoubleTensorics.calculate(measured).minus(reference);</cod
 <p>All the examples in the previous sections described directly Java executable code. In addition to this, \tensorics{} provides a Java internal domain specific language (DSL) to only describe calculation steps using the same operations as described before. This DSL does not directly execute the calculations, but instead creates an expression tree, which can be evaluated (resolved) in a separate step. Since these expressions can be resolved in different contexts, this can e.g. be used for subscription based online evaluation (e.g. processing data from devices) or processing logged data. This expression language is one of the cornerstones of a recently developed online analysis framework. More details can be found in the corresponding publication \cite{analysis-framework}.</p>
 </div>
 <div class="paragraph">
-<p>Last build:		2018-07-15 21:10:32 CEST</p>
+<p>Last build:		2018-07-15 21:19:19 CEST</p>
 </div>
 </div>
 </div>
