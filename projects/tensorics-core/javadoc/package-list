@@ -48,6 +48,7 @@ org.tensorics.core.tensor.lang
 org.tensorics.core.tensor.operations
 org.tensorics.core.tensor.options
 org.tensorics.core.tensor.resample
+org.tensorics.core.tensor.resample.impl
 org.tensorics.core.tensor.specific
 org.tensorics.core.tensor.stream
 org.tensorics.core.tensor.variance
