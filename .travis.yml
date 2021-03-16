@@ -1,6 +1,6 @@
 language: ruby
 jdk:
-  - oraclejdk8
+  - openjdk11
 env:
   global:
     secure: GH_TOKEN
